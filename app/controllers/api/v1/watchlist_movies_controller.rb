@@ -14,11 +14,17 @@ class Api::V1::WatchlistMoviesController < ApplicationController
    	render json: watchlist
   end
 
+  def destroy
+   movie_association = WatchlistMovie.find_by(movie_id: watchlist_movie_params[:movie_id], watchlist_id: watchlist_movie_params[:watchlist_id])
+   movie_association.delete
+   
+   render json: movie_association
+  end
+
   private
 
  def watchlist_movie_params
-
-    params.require(:watchlist_movie).permit(:watchlist_id, movie: [:title, :poster_path, :overview, :release_date])
+    params.require(:watchlist_movie).permit(:movie_id, :watchlist_id, movie: [:title, :poster_path, :overview, :release_date])
   end
 
 end
